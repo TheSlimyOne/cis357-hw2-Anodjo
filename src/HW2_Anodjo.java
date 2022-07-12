@@ -23,9 +23,9 @@
  *      Checking invalid data value: Y
  *      Tendered amount less than the total amount: Y
  * Use ArrayList for the items data: Y
- * Adding item data:    Y | prompt users if they are sure if they want to add
- * Deleting item data:  Y | prompt users if they are sure if they want to delete
- * Modifying item data: Y | prompt users if they are sure if they want to modfiy
+ * Adding item data:    Y
+ * Deleting item data:  Y
+ * Modifying item data: Y
  */
 
 /**

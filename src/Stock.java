@@ -7,6 +7,13 @@
  */
 public class Stock extends Receptacle {
 
+    /**
+     * Simply creates a <code>Stock</code> from a path.
+     * Cannot create a <code>Stock</code> without a path.
+     * 
+     * @param path Where the file is relatively located.
+     * @throws java.io.FileNotFoundException Thrown if the file cannot be found.
+     */
     public Stock(String path) throws java.io.FileNotFoundException {
         super(path);
     }

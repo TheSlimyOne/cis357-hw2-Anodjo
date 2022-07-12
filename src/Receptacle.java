@@ -4,8 +4,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 /**
- * The <code>Receptacle</code> is a container that holds an array of
- * <code>Item</code>.
+ * The <code>Receptacle</code> is a container that holds an
+ * <code>ArrayList</code> of
+ * <code>Item</code> and of <code>Code</code>.
  * 
  * @author Jordan Anodjo
  */
@@ -13,17 +14,15 @@ public class Receptacle {
 
     /**
      * Member variable -
-     * An <code>ArrayList</code> that contains all the
-     * <code>Receptacle</code>'s <code>Item</code>s.
+     * <code>ArrayList</code> that contains <code>Item</code>.
      */
-    protected java.util.ArrayList<Item> items;
+    protected ArrayList<Item> items;
 
     /**
      * Member variable -
-     * An <code>ArrayList</code> that contains all the
-     * <code>Receptacle</code>'s <code>Item</code>'s <code>Code</code>s.
+     * An <code>ArrayList</code> that contains <code>Code</code>.
      */
-    protected java.util.ArrayList<Code> codes;
+    protected ArrayList<Code> codes;
 
     /**
      * Member variable -
@@ -33,8 +32,7 @@ public class Receptacle {
 
     /**
      * Member variable -
-     * <code>file</code> - The destination of where the Receptacle should be saved.
-     * 
+     * <code>file</code> - The destination of where the Receptacle is saved.
      */
     protected File file;
 
@@ -53,9 +51,11 @@ public class Receptacle {
      * Constructer -
      * Constructs a <code>Receptacle</code> from file.
      * 
-     * @param path The path to the file that holds a collection of item data.
+     * @param path - Location of a file that holds <code>Item</code> data
+     * @throws FileNotFoundException    File could not be found
+     * @throws IllegalArgumentException File format is not valid
      */
-    public Receptacle(String path) throws java.io.FileNotFoundException {
+    public Receptacle(String path) throws FileNotFoundException {
         this();
 
         // Open the file path
@@ -93,14 +93,14 @@ public class Receptacle {
             // Add Item into this Receptacle.
             items.add(item);
 
-            // Increment counter
+            // Increment counter.
             counter++;
         }
 
-        // Save the path
+        // Save the path.
         this.file = file;
 
-        // Update length
+        // Update length.
         length = counter;
 
         // Close the scanner.
@@ -109,15 +109,14 @@ public class Receptacle {
 
     /**
      * Member Function -
-     * This function retrieves a reference to an <code>Item</code> at a specified
-     * index.
+     * This function retrieves a reference to an <code>Item</code>.
      * 
-     * @param code The code of the <code>Item</code> in the
-     *             <code>Receptacle</code>.
-     * @return Reference to the <code>Item</code> at the index specified.
+     * @param code - The code of the <code>Item</code> being retieved
+     * @return Reference to an <code>Item</code>
+     * @throws IllegalArgumentException Item at code does not exist
      */
     public Item getItem(Code code) {
-        // Check if the code given is in valid format
+        // Check if the code given is in valid format.
         if (exist(code))
             return items.get(getIndex(code));
         throw new IllegalArgumentException("Item at code does not exist.");
@@ -126,7 +125,7 @@ public class Receptacle {
 
     /**
      * Member Function -
-     * This function returns the length of the <code>Receptacle</code>
+     * This function returns the length of the <code>Receptacle</code>.
      * 
      * @return The length of the <code>Receptacle</code>
      */
@@ -136,41 +135,42 @@ public class Receptacle {
 
     /**
      * Member Function -
-     * This function sets the amount for a specified index.
+     * This function sets the quantity for an <code>Item</code>.
      * 
-     * @param code   The code of the <code>Item</code> in the
-     *               <code>Receptacle</code>.
-     * @param amount The value to set the amount to.
+     * @param code   - The code of the <code>Item</code> being set
+     * @param amount - The value to set the amount to
+     * @throws IllegalArgumentException Item does not exist
      */
     public void setItemAmount(Code code, int amount) {
 
         if (exist(code))
-            items.get(getIndex(code)).setAmount(amount);
+            items.get(getIndex(code)).setQuantity(amount);
         throw new IllegalArgumentException("Cannot set amount at code because item does not exist");
     }
 
     /**
      * Member function -
-     * This function replaces the <code>Item</code> with the <code>Code</code> passed.
+     * This function replaces the <code>Item</code> with the <code>Code</code>
+     * passed.
      * 
-     * @param item <code>Item</code> that will be replacing the old item.
-     * @param code <code>Code</code> of the item that will be replaced.
+     * @param item - <code>Item</code> that will be replacing the old item
+     * @param code - <code>Code</code> of the item that will be replaced
+     * @throws IllegalArgumentException Item does not exist
      */
     public void replaceItem(Item item, Code code) {
         int idx = getIndex(code);
-        
+
         if (idx == -1)
             throw new IllegalArgumentException(String.format("Item with %s does not exist", code.getValue()));
         items.set(idx, item);
     }
-
 
     /**
      * Member Function -
      * This function takes an <code>Item</code> and adds it to the this
      * <code>Receptacle</code>.
      * 
-     * @param item The <code>Item</code> that will be inserted.
+     * @param item - <code>Item</code> that will be inserted
      */
     public void add(Item item) {
         // Update member variables.
@@ -184,7 +184,8 @@ public class Receptacle {
      * This function removes an <code>Item</code> with the same <code>Code</code>
      * passed.
      * 
-     * @param code
+     * @param code - <code>Code</code> of the <code>item</code> being removed
+     * @throws IllegalArgumentException Item does not exist
      */
     public void remove(Code code) {
 
@@ -205,11 +206,12 @@ public class Receptacle {
 
     /**
      * Member Function -
-     * This function creates a clone of the <code>Item</code> at a specified index.
+     * This function creates a clone of an <code>Item</code> with the same
+     * <code>Code</code> passed.
      * 
-     * @param index The index of the <code>Item</code> in the
-     *              <code>Receptacle</code>.
-     * @return A copy of the <code>Item</code> at the specified index.
+     * @param code The <code>Code</code> of the item to be copied
+     * @return A copy of the <code>Item</code> at the specified index
+     * @throws IllegalArgumentException Item does not exist
      */
     public Item copy(Code code) {
         try {
@@ -221,11 +223,10 @@ public class Receptacle {
 
     /**
      * Member Function -
-     * This function checks if the <code>Item</code> given exists in this
-     * <code>Receptacle</code>.
+     * This function checks if the <code>Item</code> given exists
      * 
-     * @param item The <code>Item</code> that is being searched for.
-     * @return <code>True</code> if the item exist <code>False</code> otherwise.
+     * @param item - <code>Item</code> that is being searched for
+     * @return <code>True</code> if the item exist <code>False</code> otherwise
      */
     public boolean exist(Item item) {
 
@@ -238,11 +239,14 @@ public class Receptacle {
     }
 
     /**
-     * This function checks if the given Code has an item with the same code exists
-     * inside the list
+     * Member Function -
+     * This function checks if the given <code>Code</code> has an <code>Item</code>
+     * with the same code exists
+     * inside the list.
      * 
-     * @param code the <code>Code</code> that will be checked for.
-     * @return
+     * @param code - <code>Code</code> that will be checked
+     * @return Boolean value <code>true</code> if <code>Item</code> does exist
+     *         <code>false</code> otherwise
      */
     public boolean exist(Code code) {
 
@@ -257,9 +261,10 @@ public class Receptacle {
      * Member Function -
      * This function takes a <code>Code</code> and returns its index in the
      * <code>Receptacle</code>.
+     * If the item does not exist will return -1.
      * 
-     * @param code The <code>Code</code> of the <code>Item</code>
-     * @return The index of the item, if the item doesnt exist return -1
+     * @param code - <code>Code</code> of the <code>Item</code>
+     * @return The index of the <code>item</code>
      */
     private int getIndex(Code code) {
         // Check each item in arrayList if it matches then return the index.
@@ -294,6 +299,8 @@ public class Receptacle {
      * Calcualates the cost of each <code>Item</code> in the
      * <code>Receptacle</code>.
      * 
+     * @param tax_rate - The rate of tax
+     * 
      * @return The total cost of the <code>Receptacle</code>
      */
     public double[] getTotalCost(double tax_rate) {
@@ -310,6 +317,8 @@ public class Receptacle {
     }
 
     /**
+     * Member Function -
+     * 
      * This function overwrites the file that was used to make the original
      * <code>Receptacle</code> with any new values given to it.
      */
@@ -336,7 +345,8 @@ public class Receptacle {
     /**
      * {@inheritDoc}
      * Member Function -
-     * Prints each <code>Item</code> in the <code>Receptacle</code>.
+     * Returns a <code>String</code> containing each <code>Item</code> in the
+     * <code>Receptacle</code>.
      * In the format of amount, name, total price.
      */
     @Override

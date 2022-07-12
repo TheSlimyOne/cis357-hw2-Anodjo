@@ -102,25 +102,21 @@ public class CashRegister {
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate
 	 * response. In this session the user submit a path to a file. If the file is
-	 * not valid, continuously prompt the user for a valid file, if the user types Q
-	 * then end the program.
+	 * not valid, continuously prompt the user for a valid file.
 	 * 
-	 * @param input The users input.
-	 * @return the stock filled with values from a file.
+	 * @param input - The users input <code>Scanner</code>
+	 * @return The <code>Stock</code> filled with values from a file
 	 */
 	public static Stock promptSelectFile(Scanner input) {
 		// Try to open user file.
-		System.out.print("Input File (Q to quit): ");
+		System.out.print("Input File: ");
 		while (true) {
 
 			// Record user input.
 			String userInput = input.nextLine();
-
-			// If user wants to quit submit Q, safely exit program.
-			if (userInput.toLowerCase().equals("Q"))
-				System.exit(0);
 
 			userInput = "../" + userInput;
 
@@ -138,13 +134,14 @@ public class CashRegister {
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must select Y (case insenstive) or N (case
-	 * insenstive). If the user sends in an invalid response, the user will be
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must select Y or N (case insenstive).
+	 * If the user sends in an invalid response, the user will be
 	 * prompted to select an apporiate response until they have selected such.
 	 * 
-	 * @param input The users input.
-	 * @return boolean value if the user selects Y (Yes) or N (no)
+	 * @param input - The users input <code>Scanner</code>
+	 * @return Boolean value if the user selects Y (Yes) or N (no)
 	 */
 	public static boolean promptStartShopping(Scanner input) {
 
@@ -168,13 +165,14 @@ public class CashRegister {
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must pay out what they have in the
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must pay out what they have in the
 	 * shopping cart.
 	 * 
-	 * @param input        The user input.
-	 * @param shoppingCart The Receptacle that holds items that is being purchased.
-	 * @return subTotal full cost of the current session.
+	 * @param shoppingCart - <code>Receptacle</code> that holds <code>Item</code>
+	 * @param input        - The users input <code>Scanner</code>
+	 * @return Full cost of the current session
 	 */
 	public static float promtEndTransaction(Receptacle shoppingCart, Scanner input) {
 
@@ -237,12 +235,13 @@ public class CashRegister {
 	}
 
 	/**
-	 * Description: Function used to throw an error if the user inputs insufficient
-	 * funds.
+	 * Static Member function -
+	 * Function used to calculate the change the user will receive after purchase.
 	 * 
-	 * @param balance the amount the user submitted.
-	 * @param bill    the cost of all items + tax.
-	 * @return returns the change the user will recieve.
+	 * @param balance - Amount the user submitted
+	 * @param bill    - Cost of all items + tax
+	 * @return The change the user will recieve
+	 * @throws IllegalArgumentException The user inputs insufficient funds
 	 */
 	public static double purchase(double balance, double bill) {
 		if (balance < bill)
@@ -251,13 +250,14 @@ public class CashRegister {
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must select a number greater than 0 to add
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must select a number greater than 0 to add
 	 * to the amount of the item they have in their shopping cart.
 	 * 
-	 * @param item         The Item that will have its quanity amount raised.
-	 * @param shoppingCart The Receptacle the item is in.
-	 * @param input        The users input.
+	 * @param item         - <code>Item</code> that will have its quantity raised
+	 * @param shoppingCart - <code>Receptacle</code> the item is in
+	 * @param input        - The users input <code>Scanner</code>
 	 */
 	public static void promptQuantity(Item item, Receptacle shoppingCart, Scanner input) {
 
@@ -286,7 +286,7 @@ public class CashRegister {
 			// Catches if the user input a number less than or equal to 0.
 			try {
 				// Increase the amount of this Item.
-				item.addAmount(amount);
+				item.addQuantity(amount);
 			} catch (IllegalArgumentException e) {
 				// 0 or negative number
 				System.out.println("!!! Invalid quantity\n");
@@ -300,13 +300,13 @@ public class CashRegister {
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must fill out the forms correctly to
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must fill out the forms correctly to
 	 * create a new <code>Item</code> in the <code>Stock</code>.
 	 * 
-	 * @param input the user input variable.
-	 * @param stock the <code>Stock</code> that a new <code>Item</code> will be
-	 *              added to.
+	 * @param input - The users input <code>Scanner</code>
+	 * @param stock - <code>Stock</code> that an <code>Item</code> will be added to
 	 */
 	public static void promptAddItem(Scanner input, Stock stock) {
 		Code code;
@@ -314,15 +314,15 @@ public class CashRegister {
 		float price;
 
 		// Catches if the user inputs a invalid field.
-		session: while (true) {
-			System.out.print("item code: ");
-			try {
-				code = new Code(input.nextLine());
-				break session;
-			} catch (IllegalArgumentException e) {
-				System.out.println("!!! Invalid code format");
 
-			}
+		System.out.print("item code: ");
+		try {
+			code = new Code(input.nextLine());
+
+		} catch (IllegalArgumentException e) {
+			System.out.println("!!! Invalid code format");
+			return;
+
 		}
 
 		// Name can be anything.
@@ -330,47 +330,35 @@ public class CashRegister {
 		name = input.nextLine().toLowerCase();
 
 		// Catches if the user inputs a invalid price.
-		session: while (true) {
-			System.out.print("item price: ");
 
-			try {
-				price = input.nextFloat();
-				break session;
-			} catch (Exception e) {
-				// Clear line.
-				input.nextLine();
-				System.out.println("!!! Invalid price");
-			}
+		System.out.print("item price: ");
+
+		try {
+			price = input.nextFloat();
+		} catch (Exception e) {
+			// Clear line.
+			input.nextLine();
+			System.out.println("!!! Invalid price");
+			return;
 		}
 
 		// Clear line.
 		input.nextLine();
 
-		System.out.printf("\nAre you sure you want to add %s (Y/N) ", name);
-		switch (input.nextLine().toUpperCase()) {
-			case "Y":
-				stock.add(new Item(code, name, price, 0));
-				System.out.println("Item add successful!");
-				break;
-
-			default:
-				System.out.println("Did not add item.");
-				break;
-		}
+		stock.add(new Item(code, name, price, 0));
+		System.out.println("Item add successful!");
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must submit a valid <code>Code</code> to
-	 * delete it.
-	 * an <code>Item</code> in the <code>Stock</code>.
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must submit a valid <code>Code</code> to delete its
+	 * associated <code>Item</code> in the <code>Stock</code>.
 	 * 
-	 * @param input the user input variable.
-	 * @param stock the <code>Stock</code> that a new <code>Item</code> will be
-	 *              added to.
+	 * @param input - The users input <code>Scanner</code>
+	 * @param stock - <code>Stock</code> where an <code>Item</code> will be deleted
 	 */
 	public static void promptDeleteItem(Scanner input, Stock stock) {
-		Item item;
 		Code code;
 
 		// Catches if the user inputs a invalid field.
@@ -384,58 +372,44 @@ public class CashRegister {
 
 		// Catches if the item exists or not.
 		try {
-			item = stock.getItem(code);
+			stock.getItem(code);
 		} catch (Exception e) {
 			System.out.println("!!! Item at code does not exist");
 			return;
 		}
 
-		System.out.printf("Are you sure you want to delete %s (Y/N) ", item.getName());
-		switch (input.nextLine().toUpperCase()) {
-			case "Y":
-				stock.remove(code);
-				System.out.println("Item delete successful!");
-				break;
-
-			default:
-				System.out.println("Did not delete item!");
-				break;
-		}
+		stock.remove(code);
+		System.out.println("Item delete successful!");
 
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must submit a valid <code>Code</code> to
-	 * modify it.
-	 * an <code>Item</code> in the <code>Stock</code>.
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must submit a valid <code>Code</code> to modify it.
 	 * 
-	 * @param input the user input variable.
-	 * @param stock the <code>Stock</code> that a new <code>Item</code> will be
-	 *              added to.
+	 * @param input - The users input <code>Scanner</code>.
+	 * @param stock - <code>Stock</code> where an <code>Item</code> will be
+	 *              modified
 	 */
 	public static void promptModifyItem(Scanner input, Stock stock) {
-		Item item;
 		Code code;
 		String name;
 		float price;
 
 		// Catches if the user inputs a invalid code.
-		session: while (true) {
-			System.out.print("item code: ");
-			try {
-				code = new Code(input.nextLine());
-				break session;
-			} catch (Exception e) {
-				System.out.println("!!! Invalid code format");
-				return;
-			}
+		System.out.print("item code: ");
+		try {
+			code = new Code(input.nextLine());
+		} catch (IllegalArgumentException e) {
+			System.out.println("!!! Invalid code format");
+			return;
 		}
 
 		// Catches if the item exists.
 		try {
-			item = stock.getItem(code);
-		} catch (Exception e) {
+			stock.getItem(code);
+		} catch (IllegalArgumentException e) {
 			System.out.println("!!! Item at code does not exist");
 			return;
 		}
@@ -445,51 +419,39 @@ public class CashRegister {
 		name = input.nextLine().toLowerCase();
 
 		// Catches if the user inputs a invalid price.
-		session: while (true) {
-			System.out.print("item price: ");
-			try {
-				price = input.nextFloat();
 
-				break session;
-			} catch (Exception e) {
-				// Clear line.
-				input.nextLine();
-				System.out.println("!!! Invalid price");
+		System.out.print("item price: ");
+		try {
+			price = input.nextFloat();
+		} catch (Exception e) {
+			// Clear line.
+			input.nextLine();
+			System.out.println("!!! Invalid price");
+			return;
 
-			}
 		}
 
 		// Clear line.
 		input.nextLine();
 
-		System.out.printf("Are you sure you want to modify %s (Y/N) ", item.getName());
-		switch (input.nextLine().toUpperCase()) {
-			case "Y":
-				item = new Item(code, name, price, 0);
-				// Since it's known that item exist no error handling is need.
-				stock.replaceItem(item, code);
-				System.out.println("Item modify successful!");
-				break;
-
-			default:
-				System.out.println("Did not modify item!");
-				break;
-		}
-
+		stock.replaceItem(new Item(code, name, price, 0), code);
+		System.out.println("Item modify successful!");
 	}
 
 	/**
-	 * Description: Starts a session in where the user must select an apporiate
-	 * response. In this session the user must select prompted input to update the
-	 * <code>Stock</code>
+	 * Static Member function -
+	 * Starts a session in where the user must select an apporiate response.
+	 * In this session the user must select prompted input to update the
+	 * <code>Stock</code>.
 	 * 
-	 * @param item         The Item that will have its quanity amount raised.
-	 * @param shoppingCart The Receptacle the item is in.
-	 * @param input        The users input.
+	 * @param input - The users input <code>Scanner</code>
+	 * @param stock - <code>Stock</code> that is being updated
 	 */
 	public static void promptUpdateStock(Scanner input, Stock stock) {
 		session: while (true) {
+			// Prompt the user.
 			System.out.print("\nDo you want to update the items data? (A/D/M/Q): ");
+
 			switch (input.nextLine().toUpperCase()) {
 				case "A":
 					promptAddItem(input, stock);

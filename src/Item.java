@@ -28,44 +28,44 @@ public class Item {
      * Member variable -
      * The amount of <code>Item</code> stored/ordered.
      */
-    private int amount;
+    private int quantity;
 
     /**
      * Constructor -
      * Constructs an <code>Item</code> with all memeber variables filled.
      * 
-     * @param code
-     * @param name
-     * @param price
-     * @param amount the quanity of the <code>Item</code>
+     * @param code     - <code>Code</code> of the <code>Item</code>
+     * @param name     - the name of the <code>Item</code>
+     * @param price    - the cost of the <code>Item</code>
+     * @param quantity - the amount of this <code>Item</code> saved
      */
-    public Item(Code code, String name, float price, int amount) {
+    public Item(Code code, String name, float price, int quantity) {
         this.code = code;
         this.name = name;
         this.price = price;
 
         // Check if the amount is acceptable.
-        setAmount(amount);
+        setQuantity(quantity);
     }
 
     /**
      * Copy Constructor -
      * Constructs a copy of an <code>Item</code> from an <code>Item</code>.
      * 
-     * @param item
+     * @param item <code>Item</code> that will be copied
      */
     public Item(Item item) {
         this.code = new Code(item.getCode());
         this.name = item.getName();
         this.price = item.getPrice();
-        this.amount = item.getAmount();
+        this.quantity = item.getQuantity();
     }
 
     /**
      * Member Function -
      * Getter for the <code>Item</code> code.
      * 
-     * @return Item's code.
+     * @return The <code>Code</code> of the <code>Item</code>
      */
     public Code getCode() {
         return code;
@@ -75,7 +75,7 @@ public class Item {
      * Member Function -
      * Getter for the <code>Item</code> name.
      * 
-     * @return The <code>Item</code>'s name.
+     * @return The the name of the <code>Item</code>
      */
     public String getName() {
         return name;
@@ -85,7 +85,7 @@ public class Item {
      * Member Function -
      * Getter for the <code>Item</code> price.
      * 
-     * @return The <code>Item</code>'s price.
+     * @return The price of the <code>Item</code>
      */
     public float getPrice() {
         return price;
@@ -93,26 +93,27 @@ public class Item {
 
     /**
      * Member Function -
-     * Getter for amount of this <code>Item</code>.
+     * Getter for quantity of this <code>Item</code>
      * 
-     * @return The <code>Item</code> amount.
+     * @return The quantity of this <code>Item</code> stored
      */
-    public int getAmount() {
-        return amount;
+    public int getQuantity() {
+        return quantity;
     }
 
     /**
      * Member Function -
-     * This function sets the amount for this <code>Item</code>'s.
-     * The amount must be greater than or equal to 0.
-     * Cannot logically have a negative <code>Item</code>'s so the function will
+     * This function sets the quantity for this <code>Item</code>.
+     * The quantity must be greater than or equal to 0.
+     * Cannot logically have a negative <code>Item</code> if so the function will
      * throw an error.
      * 
-     * @param amount what to set Item amount to.
+     * @param quantity number to set quantity
+     * @throws IllegalArgumentException A negative number was passed
      */
-    public void setAmount(int amount) {
-        if (amount >= 0)
-            this.amount = amount;
+    public void setQuantity(int quantity) {
+        if (quantity >= 0)
+            this.quantity = quantity;
         else
             throw new IllegalArgumentException("Cannot have a negative amount of item.");
 
@@ -120,29 +121,27 @@ public class Item {
 
     /**
      * Member Function -
-     * This function increments amount for this <code>Item</code>.
-     * The amount added must be greater than 0.
-     * Cannot logically add a negative <code>Item</code> or add 0 of an
-     * <code>Item</code> so the function will throw an error.
+     * This function increments the quantity for this <code>Item</code>.
      * 
-     * @param amount
+     * @param amount - The amount of item to add
+     * @throws IllegalArgumentException A number less than or equal to 0 was passed
      */
-    public void addAmount(int amount) {
-        if (amount >= 0) {
-            this.amount += amount;
-        } else {
+    public void addQuantity(int amount) {
+        if (amount > 0)
+            this.quantity += amount;
+        else
             throw new IllegalArgumentException("Cannot add a non positive item.");
-        }
+
     }
 
     /**
      * Member Function -
      * Calculates the full cost of <code>Item</code>.
      * 
-     * @return The price of the <code>Item</code>'s times its amount.
+     * @return The cost of all the quantity mulitplied by price.
      */
     public float calculateAmountTotal() {
-        return price * amount;
+        return price * quantity;
     }
 
     /**
@@ -152,7 +151,7 @@ public class Item {
      */
     @Override
     public String toString() {
-        return String.format("%5d %-13s $ %6.2f", amount, name, calculateAmountTotal());
+        return String.format("%5d %-13s $ %6.2f", quantity, name, calculateAmountTotal());
     }
 
 }
