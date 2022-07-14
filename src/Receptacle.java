@@ -267,6 +267,7 @@ public class Receptacle {
      * @return The index of the <code>item</code>
      */
     private int getIndex(Code code) {
+
         // Check each item in arrayList if it matches then return the index.
         if (exist(code))
             for (int i = 0; i < length; i++)
@@ -282,6 +283,7 @@ public class Receptacle {
      * name.
      */
     public void sort() {
+
         // For each Item compare it with the other Items and swap them if needed.
         for (int i = 0; i < length; i++) {
             for (int j = i + 1; j < length; j++) {

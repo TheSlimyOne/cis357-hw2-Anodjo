@@ -15,7 +15,7 @@ public class CashRegister {
 	public static void promptStartShopping() {
 
 		// Greet the user.
-		System.out.println("Welcome to POST system!\n");
+		System.out.println("Welcome to Anodjo POST system!\n");
 
 		// Declaration of Scanner
 		Scanner input = new Scanner(System.in);
@@ -115,15 +115,14 @@ public class CashRegister {
 		System.out.print("Input File: ");
 		while (true) {
 
-			// Record user input.
+			// Store user input
 			String userInput = input.nextLine();
-
-			userInput = "../" + userInput;
 
 			// Catches if the user submits a file that does not exist.
 			// Catches if the user submits a file that is not formatted correctly.
 			try {
-				return new Stock(userInput);
+				// Direct the user to the correct file.
+				return new Stock("../input/" + userInput);
 			} catch (java.io.FileNotFoundException e) {
 				System.out.printf("!!! File at %s is not found try again: ", userInput);
 			} catch (IllegalArgumentException e) {
@@ -268,7 +267,6 @@ public class CashRegister {
 			System.out.printf("%-20s", "Enter quantity: ");
 
 			int amount;
-
 			// Catches if the user input is not an Integer.
 			try {
 				// Store the number.
@@ -317,7 +315,12 @@ public class CashRegister {
 
 		System.out.print("item code: ");
 		try {
+
 			code = new Code(input.nextLine());
+			if (stock.exist(code)) {
+				System.out.println("!!! Code is not unique");
+				return;
+			}
 
 		} catch (IllegalArgumentException e) {
 			System.out.println("!!! Invalid code format");
@@ -466,9 +469,8 @@ public class CashRegister {
 					break;
 
 				case "Q":
-					// Exit program.
-					input.close();
 					System.out.println(stock);
+					input.close();
 					stock.updateFile();
 					System.out.println("\nThanks for using POST system. Goodbye.");
 					break session;
@@ -478,6 +480,5 @@ public class CashRegister {
 					break;
 			}
 		}
-
 	}
 }
